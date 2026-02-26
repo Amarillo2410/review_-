@@ -15,3 +15,18 @@ PARTITION BY RANGE (YEAR(fecha_cita)) (
     PARTITION p2026 VALUES LESS THAN (2027),
     PARTITION pmax VALUES LESS THAN MAXVALUE
 );
+
+
+/*Paertion de recetas por medicamento */
+CREATE TABLE recetas (
+    id_recetas INT NOT NULL,
+    medicamento VARCHAR(50) NOT NULL,
+    id_citas INT,
+    
+    PRIMARY KEY (id_recetas, medicamento)
+)
+PARTITION BY LIST COLUMNS(medicamento) (
+    PARTITION p_analgesicos VALUES IN ('Ibuprofeno', 'Paracetamol'),
+    PARTITION p_antibioticos VALUES IN ('Amoxicilina'),
+    PARTITION p_otros VALUES IN ('Otro')
+);
